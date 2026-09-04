@@ -3,108 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>If I Said This Back Then — Flipbook</title>
 
 <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
 
 <style>
-* { box-sizing: border-box; }
+*{box-sizing:border-box}
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  overflow: hidden;
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
 }
 
-#flipbook {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
+body{
+  background:transparent;
+  overflow-x:hidden;
 }
 
-.book-wrap {
-  position: relative;
-  width: min(980px, 100%);
-  height: 100%;
-  padding: 0 54px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#flipbook{
+  position:relative;
+  width:100%;
+  min-height:420px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:transparent;
 }
 
-#book-container {
-  width: 100%;
-  height: min(82vh, 720px);
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.book-wrap{
+  position:relative;
+  width:min(1220px,100%);
+  padding:0 48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-#book-container > div {
-  margin: 0 auto !important;
+#book-container{
+  width:100%;
+  height:min(82vh,820px);
+  min-height:440px;
+  margin:0 auto;
 }
 
-.nav-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(255,253,249,.96);
-  color: #5a3500;
-  box-shadow: 0 5px 18px rgba(90,53,0,.14);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 0 3px;
+#book-container > div{
+  margin:0 auto !important;
 }
 
-.nav-button:hover {
-  transform: translateY(-50%) scale(1.04);
+.nav-button{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:46px;
+  height:46px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,253,249,.96);
+  color:#5a3500;
+  box-shadow:0 6px 22px rgba(90,53,0,.14);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:28px;
+  line-height:1;
+  cursor:pointer;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 0 3px;
 }
 
-#prev { left: 2px; }
-#next { right: 2px; }
+.nav-button:hover{
+  transform:translateY(-50%) scale(1.04);
+}
 
-@media (max-width: 700px) {
-  #flipbook {
-    min-height: 360px;
+.nav-button:active{
+  transform:translateY(-50%) scale(.98);
+}
+
+#prev{left:22px}
+#next{right:22px}
+
+@media(max-width:700px){
+  #flipbook{
+    min-height:420px;
   }
 
-  .book-wrap {
-    width: 100%;
-    padding: 0 40px;
+  .book-wrap{
+    padding:0 36px;
   }
 
-  #book-container {
-    height: calc(100vh - 20px);
-    min-height: 360px;
-    max-height: 620px;
+  #book-container{
+    width:100%;
+    height:calc(100vw + 70px);
+    min-height:420px;
+    max-height:680px;
   }
 
-  .nav-button {
-    width: 36px;
-    height: 36px;
-    font-size: 23px;
+  .nav-button{
+    width:38px;
+    height:38px;
+    font-size:23px;
   }
 
-  #prev { left: 0; }
-  #next { right: 0; }
+  #prev{left:0}
+  #next{right:0}
 }
 </style>
 </head>
@@ -139,9 +143,9 @@ const pageFlip = new St.PageFlip(container, {
   height: 1024,
   size: "stretch",
   minWidth: 280,
-  maxWidth: 490,
-  minHeight: 370,
-  maxHeight: 680,
+  maxWidth: 580,
+  minHeight: 360,
+  maxHeight: 760,
   showCover: true,
   usePortrait: true,
   mobileScrollSupport: true,
@@ -157,13 +161,8 @@ const pageFlip = new St.PageFlip(container, {
 
 pageFlip.loadFromImages(pages);
 
-document.getElementById("prev").addEventListener("click", () => {
-  pageFlip.flipPrev();
-});
-
-document.getElementById("next").addEventListener("click", () => {
-  pageFlip.flipNext();
-});
+document.getElementById("prev").addEventListener("click", () => pageFlip.flipPrev());
+document.getElementById("next").addEventListener("click", () => pageFlip.flipNext());
 </script>
 </body>
 </html>
