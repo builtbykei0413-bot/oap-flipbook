@@ -73,49 +73,25 @@ body{
   padding:0 0 3px;
 }
 
-.nav-button:hover{
-  transform:translateY(-50%) scale(1.04);
-}
-
-.nav-button:active{
-  transform:translateY(-50%) scale(.98);
-}
+.nav-button:hover{transform:translateY(-50%) scale(1.04)}
+.nav-button:active{transform:translateY(-50%) scale(.98)}
 
 #prev{left:8px}
 #next{right:8px}
 
 /* TABLET */
 @media (min-width:701px) and (max-width:1000px){
-  #flipbook{
-    padding:4px 0 7px;
-  }
-
-  .book-wrap{
-    max-width:900px;
-    padding:0 42px;
-  }
-
-  #book-container{
-    max-width:800px;
-    height:650px;
-  }
-
+  #flipbook{padding:4px 0 7px}
+  .book-wrap{max-width:900px;padding:0 42px}
+  #book-container{max-width:800px;height:650px}
   #prev{left:4px}
   #next{right:4px}
 }
 
 /* MOBILE */
 @media(max-width:700px){
-  #flipbook{
-    padding:0 0 2px;
-  }
-
-  .book-wrap{
-    width:100%;
-    max-width:none;
-    padding:0 28px;
-  }
-
+  #flipbook{padding:0 0 2px}
+  .book-wrap{width:100%;max-width:none;padding:0 28px}
   #book-container{
     width:100%;
     max-width:none;
@@ -123,49 +99,30 @@ body{
     min-height:340px;
     max-height:520px;
   }
-
-  .nav-button{
-    width:36px;
-    height:36px;
-    font-size:22px;
-  }
-
+  .nav-button{width:36px;height:36px;font-size:22px}
   #prev{left:0}
   #next{right:0}
 }
 
 /* SMALL PHONES */
 @media(max-width:420px){
-  .book-wrap{
-    padding:0 25px;
-  }
-
+  .book-wrap{padding:0 25px}
   #book-container{
     height:calc(100vw - 14px);
     min-height:320px;
     max-height:500px;
   }
-
-  .nav-button{
-    width:34px;
-    height:34px;
-    font-size:21px;
-  }
+  .nav-button{width:34px;height:34px;font-size:21px}
 }
 </style>
 </head>
 
 <body>
-
 <div id="flipbook">
   <div class="book-wrap">
-
     <button class="nav-button" id="prev" aria-label="Previous page">‹</button>
-
     <div id="book-container"></div>
-
     <button class="nav-button" id="next" aria-label="Next page">›</button>
-
   </div>
 </div>
 
@@ -189,23 +146,17 @@ const pageFlip = new St.PageFlip(container, {
   width:768,
   height:960,
   size:"stretch",
-
   minWidth:256,
   maxWidth:544,
-
   minHeight:320,
   maxHeight:680,
-
   showCover:true,
   usePortrait:true,
   mobileScrollSupport:true,
-
   maxShadowOpacity:0.20,
   drawShadow:true,
-
   flippingTime:850,
   startPage:0,
-
   autoSize:true,
   clickEventForward:true,
   useMouseEvents:true,
@@ -213,6 +164,46 @@ const pageFlip = new St.PageFlip(container, {
 });
 
 pageFlip.loadFromImages(pages);
+
+/*
+  Retina / HiDPI fix:
+  StPageFlip's canvas mode normally gives the canvas a backing
+  resolution equal to its CSS size. On high-density phone screens
+  this can make text look soft. Keep the CSS size unchanged but
+  render the canvas at up to 2x device-pixel density.
+*/
+function sharpenCanvas(){
+  const canvas = container.querySelector("canvas");
+  if(!canvas) return;
+
+  const rect = canvas.getBoundingClientRect();
+  if(!rect.width || !rect.height) return;
+
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const targetWidth = Math.round(rect.width * dpr);
+  const targetHeight = Math.round(rect.height * dpr);
+
+  if(canvas.width !== targetWidth || canvas.height !== targetHeight){
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
+
+    const ctx = canvas.getContext("2d");
+    if(ctx){
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+
+    pageFlip.update();
+  }
+}
+
+setTimeout(sharpenCanvas, 80);
+setTimeout(sharpenCanvas, 300);
+window.addEventListener("resize", () => setTimeout(sharpenCanvas, 50));
+
+const resizeObserver = new ResizeObserver(() => {
+  requestAnimationFrame(sharpenCanvas);
+});
+resizeObserver.observe(container);
 
 document.getElementById("prev").addEventListener(
   "click",
@@ -224,6 +215,5 @@ document.getElementById("next").addEventListener(
   () => pageFlip.flipNext()
 );
 </script>
-
 </body>
 </html>
