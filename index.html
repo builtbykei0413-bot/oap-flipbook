@@ -27,7 +27,7 @@ body{
   display:flex;
   justify-content:center;
   background:transparent;
-  padding:8px 0 10px;
+  padding:6px 0 8px;
 }
 
 .book-wrap{
@@ -43,7 +43,7 @@ body{
 #book-container{
   width:100%;
   max-width:980px;
-  height:760px;
+  height:720px;
   margin:0 auto;
 }
 
@@ -73,8 +73,13 @@ body{
   padding:0 0 3px;
 }
 
-.nav-button:hover{transform:translateY(-50%) scale(1.04)}
-.nav-button:active{transform:translateY(-50%) scale(.98)}
+.nav-button:hover{
+  transform:translateY(-50%) scale(1.04);
+}
+
+.nav-button:active{
+  transform:translateY(-50%) scale(.98);
+}
 
 #prev{left:8px}
 #next{right:8px}
@@ -82,7 +87,7 @@ body{
 /* TABLET */
 @media (min-width:701px) and (max-width:1000px){
   #flipbook{
-    padding:5px 0 8px;
+    padding:4px 0 7px;
   }
 
   .book-wrap{
@@ -92,7 +97,7 @@ body{
 
   #book-container{
     max-width:800px;
-    height:680px;
+    height:650px;
   }
 
   #prev{left:4px}
@@ -102,7 +107,7 @@ body{
 /* MOBILE */
 @media(max-width:700px){
   #flipbook{
-    padding:0 0 3px;
+    padding:0 0 2px;
   }
 
   .book-wrap{
@@ -114,9 +119,9 @@ body{
   #book-container{
     width:100%;
     max-width:none;
-    height:calc(100vw + 12px);
-    min-height:350px;
-    max-height:540px;
+    height:calc(100vw - 10px);
+    min-height:340px;
+    max-height:520px;
   }
 
   .nav-button{
@@ -136,7 +141,7 @@ body{
   }
 
   #book-container{
-    height:calc(100vw + 2px);
+    height:calc(100vw - 14px);
     min-height:320px;
     max-height:500px;
   }
@@ -151,11 +156,16 @@ body{
 </head>
 
 <body>
+
 <div id="flipbook">
   <div class="book-wrap">
+
     <button class="nav-button" id="prev" aria-label="Previous page">‹</button>
+
     <div id="book-container"></div>
+
     <button class="nav-button" id="next" aria-label="Next page">›</button>
+
   </div>
 </div>
 
@@ -174,33 +184,46 @@ const pages = [
 ];
 
 const container = document.getElementById("book-container");
-const isMobile = window.matchMedia("(max-width: 700px)").matches;
 
 const pageFlip = new St.PageFlip(container, {
-  width: isMobile ? 620 : 768,
-  height: isMobile ? 826 : 1024,
-  size: "stretch",
-  minWidth: isMobile ? 250 : 300,
-  maxWidth: isMobile ? 440 : 540,
-  minHeight: isMobile ? 330 : 380,
-  maxHeight: isMobile ? 590 : 720,
-  showCover: true,
-  usePortrait: true,
-  mobileScrollSupport: true,
-  maxShadowOpacity: 0.20,
-  drawShadow: true,
-  flippingTime: 850,
-  startPage: 0,
-  autoSize: true,
-  clickEventForward: true,
-  useMouseEvents: true,
-  swipeDistance: 20
+  width:768,
+  height:960,
+  size:"stretch",
+
+  minWidth:256,
+  maxWidth:544,
+
+  minHeight:320,
+  maxHeight:680,
+
+  showCover:true,
+  usePortrait:true,
+  mobileScrollSupport:true,
+
+  maxShadowOpacity:0.20,
+  drawShadow:true,
+
+  flippingTime:850,
+  startPage:0,
+
+  autoSize:true,
+  clickEventForward:true,
+  useMouseEvents:true,
+  swipeDistance:20
 });
 
 pageFlip.loadFromImages(pages);
 
-document.getElementById("prev").addEventListener("click", () => pageFlip.flipPrev());
-document.getElementById("next").addEventListener("click", () => pageFlip.flipNext());
+document.getElementById("prev").addEventListener(
+  "click",
+  () => pageFlip.flipPrev()
+);
+
+document.getElementById("next").addEventListener(
+  "click",
+  () => pageFlip.flipNext()
+);
 </script>
+
 </body>
 </html>
