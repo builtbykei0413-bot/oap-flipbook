@@ -25,17 +25,17 @@ body{
 #flipbook{
   position:relative;
   width:100%;
-  min-height:420px;
   display:flex;
   align-items:center;
   justify-content:center;
   background:transparent;
+  padding:10px 0 12px;
 }
 
 .book-wrap{
   position:relative;
   width:min(1220px,100%);
-  padding:0 48px;
+  padding:0 52px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -74,41 +74,76 @@ body{
   padding:0 0 3px;
 }
 
-.nav-button:hover{
-  transform:translateY(-50%) scale(1.04);
-}
-
-.nav-button:active{
-  transform:translateY(-50%) scale(.98);
-}
+.nav-button:hover{transform:translateY(-50%) scale(1.04)}
+.nav-button:active{transform:translateY(-50%) scale(.98)}
 
 #prev{left:22px}
 #next{right:22px}
 
-@media(max-width:700px){
+/* TABLET */
+@media (min-width:701px) and (max-width:1000px){
   #flipbook{
-    min-height:420px;
+    padding:6px 0 10px;
   }
 
   .book-wrap{
-    padding:0 36px;
+    padding:0 44px;
+  }
+
+  #book-container{
+    height:min(78vh,760px);
+    min-height:430px;
+  }
+
+  #prev{left:14px}
+  #next{right:14px}
+}
+
+/* MOBILE */
+@media(max-width:700px){
+  #flipbook{
+    padding:0 0 4px;
+  }
+
+  .book-wrap{
+    width:100%;
+    padding:0 30px;
   }
 
   #book-container{
     width:100%;
-    height:calc(100vw + 70px);
-    min-height:420px;
-    max-height:680px;
+    height:calc(100vw + 18px);
+    min-height:360px;
+    max-height:560px;
   }
 
   .nav-button{
-    width:38px;
-    height:38px;
-    font-size:23px;
+    width:36px;
+    height:36px;
+    font-size:22px;
   }
 
   #prev{left:0}
   #next{right:0}
+}
+
+/* SMALL PHONES */
+@media(max-width:420px){
+  .book-wrap{
+    padding:0 27px;
+  }
+
+  #book-container{
+    height:calc(100vw + 8px);
+    min-height:330px;
+    max-height:500px;
+  }
+
+  .nav-button{
+    width:34px;
+    height:34px;
+    font-size:21px;
+  }
 }
 </style>
 </head>
@@ -138,20 +173,22 @@ const pages = [
 
 const container = document.getElementById("book-container");
 
+const isMobile = window.matchMedia("(max-width: 700px)").matches;
+
 const pageFlip = new St.PageFlip(container, {
-  width: 768,
-  height: 1024,
+  width: isMobile ? 620 : 768,
+  height: isMobile ? 826 : 1024,
   size: "stretch",
-  minWidth: 280,
-  maxWidth: 580,
-  minHeight: 360,
-  maxHeight: 760,
+  minWidth: isMobile ? 250 : 300,
+  maxWidth: isMobile ? 440 : 580,
+  minHeight: isMobile ? 330 : 380,
+  maxHeight: isMobile ? 590 : 760,
   showCover: true,
   usePortrait: true,
   mobileScrollSupport: true,
-  maxShadowOpacity: 0.24,
+  maxShadowOpacity: 0.20,
   drawShadow: true,
-  flippingTime: 900,
+  flippingTime: 850,
   startPage: 0,
   autoSize: true,
   clickEventForward: true,
